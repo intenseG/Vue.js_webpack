@@ -7,7 +7,37 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div id="conditions">
+        <span class="title">氏名</span>
+          <input type="text" v-model="nameCondition">
+        <span class="title">性別</span>
+          <label for="unspecified">指定なし</label>
+          <input type="radio" id="unspecified" value="指定なし" checked v-model="gender">
+          <label for="man">男性</label>
+          <input type="radio" id="man" value="男" v-model="gender">
+          <label for="woman">女性</label>
+          <input type="radio" id="woman" value="女" v-model="gender">
+        <span class="title">組織</span>
+          <select id="organizations" v-model="organizationId">
+            <option value="0">選択なし</option>
+          </select>
+        <br>
+        <button class="searchButton" v-on:click="searchCustomers">検索</button>
+      </div>
+      <table rules="rows">
+        <tr>
+          <th>ID</th><th>氏名</th><th>性別</th><th>生年月日</th><th>所属会社</th>
+        </tr>
+        <tr v-for="customer in customers" :key="customer.id">
+          <td v-text="customer.id"></td>
+          <td v-text="customer.name"></td>
+          <td v-text="customer.gender"></td>
+          <td v-text="customer.birthday"></td>
+          <td v-text="customer.organization"></td>
+        </tr>
+      </table>
+    </div>
     <script src="bundle.js"></script>
   </body>
 </html>
