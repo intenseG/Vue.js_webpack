@@ -8,7 +8,26 @@
   </head>
   <body>
     <div id="app">
-      <div id="conditions">
+      <template>
+        <search-field
+        v-bind:name-condition="nameCondition"
+        v-bind:gender="gender"
+        v-bind:organization-id="organizationId"
+        v-bind:organizations="organizations"
+        v-on:click="searchCustomers">
+        </search-field>
+      </template>
+      <template>
+        <customer-table></customer-table>
+      </template>
+      <template>
+        <customer
+        v-for="customer in customers"
+        v-bind:customer="customer"
+        v-bind:key="customer.id">
+      </customer>
+      </template>
+      <!-- <div id="conditions">
         <span class="title">氏名</span>
           <input type="text" v-model="nameCondition">
         <span class="title">性別</span>
@@ -24,8 +43,8 @@
           </select>
         <br>
         <button class="searchButton" v-on:click="searchCustomers">検索</button>
-      </div>
-      <table rules="rows">
+      </div> -->
+      <!-- <table rules="rows">
         <tr>
           <th>ID</th><th>氏名</th><th>性別</th><th>生年月日</th><th>所属会社</th>
         </tr>
@@ -36,7 +55,7 @@
           <td v-text="customer.birthday"></td>
           <td v-text="customer.organization"></td>
         </tr>
-      </table>
+      </table> -->
     </div>
     <script src="bundle.js"></script>
   </body>

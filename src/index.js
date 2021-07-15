@@ -1,17 +1,73 @@
+Vue.component("search-field", {
+  props: ["name-condition", "gender", "organization-id", "organizations"],
+  methods: {
+    searchCustomers() {
+      this.$emit('click');
+    }
+  },
+  template: `
+    <div id="conditions">
+      <span class="title">氏名</span>
+      <input type="text" v-model="name-condition">
+      <span class="title">性別</span>
+      <label for="unspecified">指定なし</label>
+      <input type="radio" id="unspecified" value="指定なし" checked v-model="gender">
+      <label for="man">男性</label>
+      <input type="radio" id="man" value="男" v-model="gender">
+      <label for="woman">女性</label>
+      <input type="radio" id="woman" value="女" v-model="gender">
+      <span class="title">組織</span>
+      <select v-for="org in organizations" v-model="organization-id">
+        <option value="0">選択なし</option>
+        <option :value="org.id">{{ org.name }}</option>
+      </select>
+      <br>
+      <button class="searchButton" v-on:click="searchCustomers">検索</button>
+    </div>
+  `
+});
+
+Vue.component("customer-table", {
+  template: `
+    <div id="customerTable">
+      <table rules="rows">
+        <tr>
+          <th>ID</th><th>氏名</th><th>性別</th><th>生年月日</th><th>所属会社</th>
+        </tr>
+      </table>
+    </div>
+  `
+});
+
+Vue.component("customer", {
+  props: ["customer"],
+  template: `
+    <div id="customer">
+      <tr>
+        <td v-text="customer.id"></td>
+        <td v-text="customer.name"></td>
+        <td v-text="customer.gender"></td>
+        <td v-text="customer.birthday"></td>
+        <td v-text="customer.organization"></td>
+      </tr>
+    </div>
+  `
+});
+
 var app = new Vue({
   el: "#app",
   data: {
     nameCondition: "",
     gender: "指定なし",
     organizationId: 0,
-    organizations: [],
-    customers: []
+    organizationArray: [],
+    customerArray: []
   },
-  mounted: function() {
-    this.setOrganizations().then(() => {
-      this.setCustomers();
-    });
-  },
+  // mounted: function() {
+  //   this.setOrganizations().then(() => {
+  //     this.setCustomers();
+  //   });
+  // },
   methods: {
     setOrganizations: async function() {
       const organizationsElm = document.getElementById('organizations');
@@ -19,16 +75,16 @@ var app = new Vue({
       const data = await response.json();
 
       for (let i = 0; i < data.length; i++) {
-          const opElm = document.createElement('option');
-          opElm.setAttribute('value', data[i].id);
-          opElm.textContent = data[i].name;
-          organizationsElm.appendChild(opElm);
+          // const opElm = document.createElement('option');
+          // opElm.setAttribute('value', data[i].id);
+          // opElm.textContent = data[i].name;
+          // organizationsElm.appendChild(opElm);
 
           const organization = {
             id: data[i].id,
             name: data[i].name
           };
-          this.organizations.push(organization);
+          this.organizationArray.push(organization);
       }
     },
     setCustomers: async function() {
@@ -44,17 +100,14 @@ var app = new Vue({
           birthday: data[i].birthday,
           organization: organizationName
         };
-        this.customers.push(customer);
+        this.customerArray.push(customer);
       }
-    },
-    changeGender: function(event) {
-      this.gender = event.target.value;
     },
     getOrganizationName: function(id) {
       let organizationName = "";
-      for (let i = 0; i < this.organizations.length; i++) {
-        if (this.organizations[i].id == id) {
-          organizationName = this.organizations[i].name;
+      for (let i = 0; i < this.organizationArray.length; i++) {
+        if (this.organizationArray[i].id == id) {
+          organizationName = this.organizationArray[i].name;
           break;
         }
       }
@@ -65,8 +118,8 @@ var app = new Vue({
       const response = await fetch('./resources/customers.json');
       const data = await response.json();
 
-      if (this.customers.length > 0) {
-        this.customers.splice(0);
+      if (this.customerArray.length > 0) {
+        this.customerArray.splice(0);
       }
 
       let words = [];
@@ -103,9 +156,19 @@ var app = new Vue({
             birthday: data[i].birthday,
             organization: organizationName
           };
-          this.customers.push(customer);
+          this.customerArray.push(customer);
         }
       }
+    }
+  },
+  computed: {
+    organizations: function() {
+      this.setOrganizations();
+      return this.organizationArray;
+    },
+    customers: function () {
+      this.searchCustomers();
+      return this.customerArray;
     }
   }
 })
