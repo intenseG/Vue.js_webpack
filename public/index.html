@@ -10,13 +10,14 @@
     <div id="app">
       <template>
         <search-field
-        v-bind:name-condition="nameCondition"
+        v-bind:nameCondition="nameCondition"
         v-bind:gender="gender"
-        v-bind:organization-id="organizationId"
-        v-bind:organizations="organizations"
-        v-on:click="searchCustomers">
+        v-bind:organizationId="organizationId"
+        v-bind:organizations="organizations">
         </search-field>
       </template>
+      <br>
+      <button class="searchButton" v-on:click="searchCustomers">検索</button>
       <template>
         <customer-table></customer-table>
       </template>

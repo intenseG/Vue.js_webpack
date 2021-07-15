@@ -1,14 +1,9 @@
 Vue.component("search-field", {
-  props: ["name-condition", "gender", "organization-id", "organizations"],
-  methods: {
-    searchCustomers() {
-      this.$emit('click');
-    }
-  },
+  props: ["nameCondition", "gender", "organizationId", "organizations"],
   template: `
     <div id="conditions">
       <span class="title">氏名</span>
-      <input type="text" v-model="name-condition">
+      <input type="text" v-model="nameCondition">
       <span class="title">性別</span>
       <label for="unspecified">指定なし</label>
       <input type="radio" id="unspecified" value="指定なし" checked v-model="gender">
@@ -17,12 +12,10 @@ Vue.component("search-field", {
       <label for="woman">女性</label>
       <input type="radio" id="woman" value="女" v-model="gender">
       <span class="title">組織</span>
-      <select v-for="org in organizations" v-model="organization-id">
+      <select v-model="organizationId">
         <option value="0">選択なし</option>
-        <option :value="org.id">{{ org.name }}</option>
+        <option v-for="org in organizations" :value="org.id">{{ org.name }}</option>
       </select>
-      <br>
-      <button class="searchButton" v-on:click="searchCustomers">検索</button>
     </div>
   `
 });
