@@ -16,17 +16,11 @@
         v-bind:organizations="organizations">
         </search-field>
       </template>
-      <br>
-      <button class="searchButton" v-on:click="searchCustomers">検索</button>
       <template>
-        <customer-table></customer-table>
-      </template>
-      <template>
-        <customer
-        v-for="customer in customers"
-        v-bind:customer="customer"
-        v-bind:key="customer.id">
-      </customer>
+        <customer-table
+        v-bind:customers="customers"
+        v-bind:organizations="organizations">
+      </customer-table>
       </template>
       <!-- <div id="conditions">
         <span class="title">氏名</span>
