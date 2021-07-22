@@ -1,7 +1,14 @@
 Vue.component("search-field", {
-  props: ["nameCondition", "gender", "organizationId", "organizations", "customers"],
+  props: ["customers", "organizations"],
+  data: function () {
+    return {
+      nameCondition: "",
+      gender: "指定なし",
+      organizationId: 0
+    }
+  },
   methods: {
-    searchCustomers: async function() {
+    searchCustomers: async function(nameCondition, gender, organizationId) {
       const response = await fetch('./resources/customers.json');
       const data = await response.json();
 
@@ -10,21 +17,23 @@ Vue.component("search-field", {
       }
 
       let words = [];
-      if (this.nameCondition && this.nameCondition != "") {
-        this.nameCondition = this.nameCondition.replace(/　/g, " "); //全角スぺースを半角に置換
+      if (nameCondition && nameCondition != "") {
+        const _nameCondition = nameCondition.replace(/　/g, " "); //全角スぺースを半角に置換
 
-        if (this.nameCondition.includes(" ")) {
-          words = this.nameCondition.split(' ');
+        if (_nameCondition.includes(" ")) {
+          words = _nameCondition.split(' ');
         } else {
-          words.push(this.nameCondition);
+          words.push(_nameCondition);
         }
       }
 
       for (let i = 0; i < data.length; i++) {
-        if (this.gender != null &&
-            data[i].gender != this.gender) continue;
-        if (this.organizationId != null &&
-            data[i].organizationId != this.organizationId) continue;
+        if (gender != null &&
+            gender != "指定なし" &&
+            data[i].gender != gender) continue;
+        if (organizationId != null &&
+            organizationId != 0 &&
+            data[i].organizationId != organizationId) continue;
 
         let isOK = true;
         for (let j = 0; j < words.length; j++) {
@@ -64,7 +73,7 @@ Vue.component("search-field", {
         <option v-for="org in organizations" :value="org.id">{{ org.name }}</option>
       </select>
       <br>
-      <button class="searchButton" v-on:click="searchCustomers">検索</button>
+      <button class="searchButton" v-on:click="searchCustomers(nameCondition, gender, organizationId)">検索</button>
     </div>
   `
 });
@@ -114,9 +123,6 @@ Vue.component("customer-table", {
 var app = new Vue({
   el: "#app",
   data: {
-    nameCondition: null,
-    gender: null,
-    organizationId: null,
     organizationArray: [],
     customerArray: []
   },
@@ -140,14 +146,6 @@ var app = new Vue({
     }
   },
   computed: {
-    // _gender: {
-    //   get() {
-    //     return this.gender;
-    //   },
-    //   set(newVal) {
-    //     this.$emit('input', newVal);
-    //   }
-    // },
     organizations: function() {
       return this.organizationArray;
     },
