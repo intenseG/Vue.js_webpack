@@ -7,6 +7,20 @@ const app = new Vue({
     organizationArray: [],
     customerArray: []
   },
+  template: `
+    <div id="app">
+      <template>
+        <search-field
+        v-bind:customers="customers"
+        v-bind:organizations="organizations">
+        </search-field>
+        <customer-table
+        v-bind:customers="customers"
+        v-bind:organizations="organizations">
+        </customer-table>
+      </template>
+    </div>
+  `,
   components: {
     SearchField, CustomerTable
   },
