@@ -15,7 +15,7 @@
       <option v-for="org in organizations" :key="org.id" :value="org.id">{{ org.name }}</option>
     </select>
     <br>
-    <button class="searchButton" v-on:click="searchCustomers(nameCondition, gender, organizationId)">検索</button>
+    <button class="searchButton" v-on:click="searchCustomers">検索</button>
   </div>
 </template>
 
@@ -49,7 +49,7 @@ export default {
         }
       }
 
-      const _customers = data.filter(function(customer) {
+      const _customers = data.filter(customer => {
         const results = [];
         if (words.length > 0) {
           for (let i = 0; i < words.length; i++) {
@@ -59,8 +59,8 @@ export default {
           results.push(true);
         }
 
-        results.push(customer.gender == this.gender);
-        results.push(customer.organizationId == this.organizationId);
+        results.push(this.gender == "指定なし" || customer.gender == this.gender);
+        results.push(this.organizationId == 0 || customer.organizationId == this.organizationId);
 
         return !results.includes(false)
       });
