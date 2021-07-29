@@ -25,11 +25,20 @@ export default {
   data: function() {
     return {
       nameCondition: "",
-      gender: "指定なし",
-      organizationId: 0
+      gender: null,
+      organizationId: null
     }
   },
   methods: {
+    judgeName: function(name, word) {
+      return name.includes(word);
+    },
+    judgeGender: function(gender) {
+      return this.gender == null || this.gender == "指定なし" || gender == this.gender;
+    },
+    judgeOrganizationId: function(organizationId) {
+      return this.organizationId == null || this.organizationId == 0 || organizationId == this.organizationId;
+    },
     searchCustomers: async function() {
       const response = await fetch('./resources/customers.json');
       const data = await response.json();
@@ -38,29 +47,38 @@ export default {
         this.customers.splice(0);
       }
 
-      let words = [];
-      if (this.nameCondition && this.nameCondition != "") {
-        const _nameCondition = this.nameCondition.replace(/　/g, " "); //全角スぺースを半角に置換
+      // let words = [];
+      // if (this.nameCondition && this.nameCondition != "") {
+      const _nameCondition = this.nameCondition.replace(/　/g, " "); //全角スぺースを半角に置換
+      const words = _nameCondition.split(" ");
 
-        if (_nameCondition.includes(" ")) {
-          words = _nameCondition.split(' ');
-        } else {
-          words.push(_nameCondition);
-        }
-      }
+      //   if (_nameCondition.includes(" ")) {
+      //     words = _nameCondition.split(' ');
+      //   } else {
+      //     words.push(_nameCondition);
+      //   }
+      // }
 
       const _customers = data.filter(customer => {
         const results = [];
-        if (words.length > 0) {
-          for (let i = 0; i < words.length; i++) {
-            results.push(customer.name.includes(words[i]));
-          }
-        } else {
+        if (this.nameCondition === "") {
           results.push(true);
+        } else {
+          const targetWords = words.filter(word => {
+            return this.judgeName(customer.name, word)
+          });
+          results.push(targetWords.length == words.length);
         }
+        // if (words.length > 0) {
+        //   for (let i = 0; i < words.length; i++) {
+        //     results.push(this.searchName(customer.name, words[i]));
+        //   }
+        // } else {
+        //   results.push(true);
+        // }
 
-        results.push(this.gender == "指定なし" || customer.gender == this.gender);
-        results.push(this.organizationId == 0 || customer.organizationId == this.organizationId);
+        results.push(this.judgeGender(customer.gender));
+        results.push(this.judgeOrganizationId(customer.organizationId));
 
         return !results.includes(false)
       });
