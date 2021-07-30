@@ -1,0 +1,29 @@
+{
+  "name": "vue.js_webpack",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vue-loader": "^15.9.2",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^5.45.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "vue": "^2.6.14"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intenseG/Vue.js_webpack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/intenseG/Vue.js_webpack/issues"
+  },
+  "homepage": "https://github.com/intenseG/Vue.js_webpack#readme",
+  "description": ""
+}
