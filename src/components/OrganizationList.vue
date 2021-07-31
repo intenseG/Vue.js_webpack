@@ -6,6 +6,7 @@
       query: {organizations: organizations}
     }">組織</router-link>
     <h1>組織一覧</h1>
+    <router-link to="/organizations/create">組織を追加</router-link>
     <ul>
       <organization
       v-for="organization in organizations"
@@ -24,14 +25,8 @@ export default {
   },
   data: function() {
     return {
-      organizations: this.$route.query.organizations
+      organizations: this.$store.getters._organizations
     }
   }
-  // computed: {
-  //   organizations: function() {
-  //     console.log(this.$route.query.organizations);
-  //     return this.$route.query.organizations;
-  //   }
-  // }
 };
 </script>

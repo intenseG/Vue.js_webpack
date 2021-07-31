@@ -30,13 +30,13 @@ export default {
     }
   },
   methods: {
-    judgeName: function(name, word) {
+    isName: function(name, word) {
       return name.includes(word);
     },
-    judgeGender: function(gender) {
+    isGender: function(gender) {
       return this.gender == null || this.gender == "指定なし" || gender == this.gender;
     },
-    judgeOrganizationId: function(organizationId) {
+    isOrganizationId: function(organizationId) {
       return this.organizationId == null || this.organizationId == 0 || organizationId == this.organizationId;
     },
     searchCustomers: async function() {
@@ -47,17 +47,8 @@ export default {
         this.customers.splice(0);
       }
 
-      // let words = [];
-      // if (this.nameCondition && this.nameCondition != "") {
       const _nameCondition = this.nameCondition.replace(/　/g, " "); //全角スぺースを半角に置換
       const words = _nameCondition.split(" ");
-
-      //   if (_nameCondition.includes(" ")) {
-      //     words = _nameCondition.split(' ');
-      //   } else {
-      //     words.push(_nameCondition);
-      //   }
-      // }
 
       const _customers = data.filter(customer => {
         const results = [];
@@ -65,20 +56,13 @@ export default {
           results.push(true);
         } else {
           const targetWords = words.filter(word => {
-            return this.judgeName(customer.name, word)
+            return this.isName(customer.name, word)
           });
           results.push(targetWords.length == words.length);
         }
-        // if (words.length > 0) {
-        //   for (let i = 0; i < words.length; i++) {
-        //     results.push(this.searchName(customer.name, words[i]));
-        //   }
-        // } else {
-        //   results.push(true);
-        // }
 
-        results.push(this.judgeGender(customer.gender));
-        results.push(this.judgeOrganizationId(customer.organizationId));
+        results.push(this.isGender(customer.gender));
+        results.push(this.isOrganizationId(customer.organizationId));
 
         return !results.includes(false)
       });
