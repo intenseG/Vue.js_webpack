@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  props: ["customer", "organizations"],
+  props: ["customer"],
   methods: {
     getOrganizationName: function() {
       const target = this.customer.organizationId;
@@ -19,6 +19,11 @@ export default {
       });
 
       return result.name;
+    }
+  },
+  computed: {
+    organizations: function() {
+      return this.$store.getters._organizations
     }
   }
 };

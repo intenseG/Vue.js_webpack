@@ -21,7 +21,6 @@
 
 <script>
 export default {
-  props: ["customers", "organizations"],
   data: function() {
     return {
       nameCondition: "",
@@ -70,6 +69,14 @@ export default {
       for (let j = 0; j < _customers.length; j++) {
         this.customers.push(_customers[j])
       }
+    }
+  },
+  computed: {
+    organizations: function() {
+      return this.$store.getters._organizations
+    },
+    customers: function() {
+      return this.$store.getters._customers
     }
   }
 };

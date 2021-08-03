@@ -53,9 +53,7 @@ const routes = [
   },
   {
     path: '/organizations',
-    name: 'organizationsPage',
     component: OrganizationList,
-    props: route => ({ organizations: route.query.organizations })
   },
   {
     path: '/organizations/create',

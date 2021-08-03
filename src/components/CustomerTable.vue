@@ -17,9 +17,16 @@
 <script>
 import Customer from './Customer.vue';
 export default {
-  props: ["customers", "organizations"],
   components: {
     Customer
+  },
+  computed: {
+    organizations: function() {
+      return this.$store.getters._organizations
+    },
+    customers: function() {
+      return this.$store.getters._customers
+    }
   }
 };
 </script>
