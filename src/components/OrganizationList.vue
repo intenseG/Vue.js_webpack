@@ -1,7 +1,7 @@
 <template>
   <div id="organizations">
     <router-link to="/">顧客</router-link>
-    <router-link to="organizations">組織</router-link>
+    <router-link to="/organizations">組織</router-link>
     <h1>組織一覧</h1>
     <router-link to="/organizations/create">組織を追加</router-link>
     <ul>

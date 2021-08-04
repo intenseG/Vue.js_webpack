@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-link to="/">顧客</router-link>
-    <router-link to="organizations">組織</router-link>
+    <router-link to="/organizations">組織</router-link>
     <search-field></search-field>
     <customer-table></customer-table>
   </div>
