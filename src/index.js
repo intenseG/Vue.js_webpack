@@ -70,9 +70,12 @@ const app = new Vue({
   store,
   router,
   created: function() {
-    store.dispatch('setOrganizationsAsync').then(() => {
-      store.dispatch('setCustomersAsync');
-    });
+    Promise.all(
+      [
+        store.dispatch('setOrganizationsAsync'),
+        store.dispatch('setCustomersAsync')
+      ]
+    );
   },
   template: `
     <div id="app">
