@@ -54,6 +54,9 @@ const store = new Vuex.Store({
       const response = await fetch("./resources/customers.json");
       const data = await response.json();
       context.commit("setCustomers", data);
+    },
+    addCustomer(context, customer) {
+      context.commit("addCustomer", customer);
     }
   }
 })

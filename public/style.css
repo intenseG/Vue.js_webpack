@@ -73,4 +73,11 @@
 #app .createCustomerNewLine {
   padding-bottom: 15px;
 }
+
+#app .createCustomerMessage {
+  padding-top: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #df3b49;
+}
 /*# sourceMappingURL=style.css.map */
