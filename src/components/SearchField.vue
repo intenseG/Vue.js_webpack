@@ -39,23 +39,23 @@ export default {
       return this.organizationId == null || this.organizationId == 0 || organizationId == this.organizationId;
     },
     searchCustomers: async function() {
-      const response = await fetch('./resources/customers.json');
-      const data = await response.json();
+      // const response = await fetch('./resources/customers.json');
+      // const data = await response.json();
 
-      if (this.customers.length > 0) {
-        this.customers.splice(0);
-      }
+      // if (this.customers.length > 0) {
+      //   this.customers.splice(0);
+      // }
 
       const _nameCondition = this.nameCondition.replace(/　/g, " "); //全角スぺースを半角に置換
       const words = _nameCondition.split(" ");
 
-      const _customers = data.filter(customer => {
+      const _customers = this.customers.filter(customer => {
         const results = [];
         if (this.nameCondition === "") {
           results.push(true);
         } else {
           const targetWords = words.filter(word => {
-            return this.isName(customer.name, word)
+            return this.isName(customer.name, word);
           });
           results.push(targetWords.length == words.length);
         }
@@ -63,20 +63,25 @@ export default {
         results.push(this.isGender(customer.gender));
         results.push(this.isOrganizationId(customer.organizationId));
 
-        return !results.includes(false)
+        return !results.includes(false);
       });
 
-      for (let j = 0; j < _customers.length; j++) {
-        this.customers.push(_customers[j])
-      }
+      this.$store.commit("setSearchedCustomers", _customers);
+
+      // for (let j = 0; j < _customers.length; j++) {
+      //   this.searchedCustomers.push(_customers[j]);
+      // }
     }
   },
   computed: {
     organizations: function() {
-      return this.$store.getters._organizations
+      return this.$store.getters._organizations;
     },
     customers: function() {
-      return this.$store.getters._customers
+      return this.$store.getters._customers;
+    },
+    searchedCustomers: function() {
+      return this.$store.getters._searchedCustomers;
     }
   }
 };

@@ -5,6 +5,8 @@ import Vuex from 'vuex'
 import App from "./components/App.vue"
 import OrganizationList from "./components/OrganizationList.vue"
 import CreateOrganization from './components/CreateOrganization.vue';
+import CustomerTable from "./components/CustomerTable.vue"
+import CreateCustomer from './components/CreateCustomer.vue';
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
@@ -12,11 +14,13 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     organizations: [],
-    customers: []
+    customers: [],
+    searchedCustomers: []
   },
   getters: {
     _organizations: state => state.organizations,
-    _customers: state => state.customers
+    _customers: state => state.customers,
+    _searchedCustomers: state => state.searchedCustomers
   },
   mutations: {
     setOrganizations(state, organizations) {
@@ -24,9 +28,16 @@ const store = new Vuex.Store({
     },
     setCustomers(state, customers) {
       state.customers = customers;
+      state.searchedCustomers = customers;
+    },
+    setSearchedCustomers(state, searchedCustomers) {
+      state.searchedCustomers = searchedCustomers;
     },
     addOrganization(state, organization) {
       state.organizations.push(organization);
+    },
+    addCustomer(state, customer) {
+      state.customers.push(customer);
     }
   },
   actions: {
@@ -39,9 +50,6 @@ const store = new Vuex.Store({
       const response = await fetch('./resources/customers.json');
       const data = await response.json();
       context.commit('setCustomers', data);
-    },
-    addOrganization(context, organization) {
-      context.commit('addOrganization', organization);
     }
   }
 })
@@ -58,6 +66,14 @@ const routes = [
   {
     path: '/organizations/create',
     component: CreateOrganization,
+  },
+  {
+    path: '/customers',
+    component: CustomerTable,
+  },
+  {
+    path: '/customers/create',
+    component: CreateCustomer,
   }
 ];
 

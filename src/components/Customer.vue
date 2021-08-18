@@ -1,10 +1,10 @@
 <template>
   <tr>
-      <td>{{ customer.id }}</td>
-      <td>{{ customer.name }}</td>
-      <td>{{ customer.gender }}</td>
-      <td>{{ customer.birthday }}</td>
-      <td>{{ getOrganizationName() }}</td>
+    <td>{{ customer.id }}</td>
+    <td>{{ customer.name }}</td>
+    <td>{{ customer.gender }}</td>
+    <td>{{ customer.birthday }}</td>
+    <td>{{ getOrganizationName() }}</td>
   </tr>
 </template>
 
