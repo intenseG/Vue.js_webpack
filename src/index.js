@@ -1,15 +1,16 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Vuex from 'vuex'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Vuex from "vuex";
 
-import App from "./components/App.vue"
-import OrganizationList from "./components/OrganizationList.vue"
-import CreateOrganization from './components/CreateOrganization.vue';
-import CustomerTable from "./components/CustomerTable.vue"
-import CreateCustomer from './components/CreateCustomer.vue';
+import App from "./components/App.vue";
+import OrganizationList from "./components/OrganizationList.vue";
+import CreateOrganization from "./components/CreateOrganization.vue";
+import CustomerTable from "./components/CustomerTable.vue";
+import CreateCustomer from "./components/CreateCustomer.vue";
+import EditOrganization from "./components/EditOrganization.vue";
 
-Vue.use(VueRouter)
-Vue.use(Vuex)
+Vue.use(VueRouter);
+Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
@@ -38,41 +39,49 @@ const store = new Vuex.Store({
     },
     addCustomer(state, customer) {
       state.customers.push(customer);
+    },
+    editOrganizationName(state, organization) {
+      state.organizations[organization.id - 1].name = organization.name;
     }
   },
   actions: {
     async setOrganizationsAsync(context) {
-      const response = await fetch('./resources/organizations.json');
+      const response = await fetch("./resources/organizations.json");
       const data = await response.json();
-      context.commit('setOrganizations', data);
+      context.commit("setOrganizations", data);
     },
     async setCustomersAsync(context) {
-      const response = await fetch('./resources/customers.json');
+      const response = await fetch("./resources/customers.json");
       const data = await response.json();
-      context.commit('setCustomers', data);
+      context.commit("setCustomers", data);
     }
   }
 })
 
 const routes = [
   {
-    path: '/',
+    path: "/",
     component: App
   },
   {
-    path: '/organizations',
+    path: "/organizations",
     component: OrganizationList,
   },
   {
-    path: '/organizations/create',
+    path: "/organizations/create",
     component: CreateOrganization,
   },
   {
-    path: '/customers',
+    path: "/organizations/:id",
+    name: "editOrganization",
+    component: EditOrganization,
+  },
+  {
+    path: "/customers",
     component: CustomerTable,
   },
   {
-    path: '/customers/create',
+    path: "/customers/create",
     component: CreateCustomer,
   }
 ];
@@ -88,8 +97,8 @@ const app = new Vue({
   created: function() {
     Promise.all(
       [
-        store.dispatch('setOrganizationsAsync'),
-        store.dispatch('setCustomersAsync')
+        store.dispatch("setOrganizationsAsync"),
+        store.dispatch("setCustomersAsync")
       ]
     );
   },
@@ -98,4 +107,4 @@ const app = new Vue({
       <router-view></router-view>
     </div>
   `
-}).$mount('#app')
+}).$mount("#app");
