@@ -21,7 +21,6 @@
 
 <script>
 export default {
-  props: ["customers", "organizations"],
   data: function() {
     return {
       nameCondition: "",
@@ -30,62 +29,59 @@ export default {
     }
   },
   methods: {
-    judgeName: function(name, word) {
+    isName: function(name, word) {
       return name.includes(word);
     },
-    judgeGender: function(gender) {
+    isGender: function(gender) {
       return this.gender == null || this.gender == "指定なし" || gender == this.gender;
     },
-    judgeOrganizationId: function(organizationId) {
+    isOrganizationId: function(organizationId) {
       return this.organizationId == null || this.organizationId == 0 || organizationId == this.organizationId;
     },
     searchCustomers: async function() {
-      const response = await fetch('./resources/customers.json');
-      const data = await response.json();
+      // const response = await fetch('./resources/customers.json');
+      // const data = await response.json();
 
-      if (this.customers.length > 0) {
-        this.customers.splice(0);
-      }
+      // if (this.customers.length > 0) {
+      //   this.customers.splice(0);
+      // }
 
-      // let words = [];
-      // if (this.nameCondition && this.nameCondition != "") {
       const _nameCondition = this.nameCondition.replace(/　/g, " "); //全角スぺースを半角に置換
       const words = _nameCondition.split(" ");
 
-      //   if (_nameCondition.includes(" ")) {
-      //     words = _nameCondition.split(' ');
-      //   } else {
-      //     words.push(_nameCondition);
-      //   }
-      // }
-
-      const _customers = data.filter(customer => {
+      const _customers = this.customers.filter(customer => {
         const results = [];
         if (this.nameCondition === "") {
           results.push(true);
         } else {
           const targetWords = words.filter(word => {
-            return this.judgeName(customer.name, word)
+            return this.isName(customer.name, word);
           });
           results.push(targetWords.length == words.length);
         }
-        // if (words.length > 0) {
-        //   for (let i = 0; i < words.length; i++) {
-        //     results.push(this.searchName(customer.name, words[i]));
-        //   }
-        // } else {
-        //   results.push(true);
-        // }
 
-        results.push(this.judgeGender(customer.gender));
-        results.push(this.judgeOrganizationId(customer.organizationId));
+        results.push(this.isGender(customer.gender));
+        results.push(this.isOrganizationId(customer.organizationId));
 
-        return !results.includes(false)
+        return !results.includes(false);
       });
 
-      for (let j = 0; j < _customers.length; j++) {
-        this.customers.push(_customers[j])
-      }
+      this.$store.commit("setSearchedCustomers", _customers);
+
+      // for (let j = 0; j < _customers.length; j++) {
+      //   this.searchedCustomers.push(_customers[j]);
+      // }
+    }
+  },
+  computed: {
+    organizations: function() {
+      return this.$store.getters._organizations;
+    },
+    customers: function() {
+      return this.$store.getters._customers;
+    },
+    searchedCustomers: function() {
+      return this.$store.getters._searchedCustomers;
     }
   }
 };

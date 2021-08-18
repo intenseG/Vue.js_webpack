@@ -1,7 +1,7 @@
 #app {
   table {
     width: 45%;
-    margin-top: 30px;
+    margin-top: 15px;
     border: solid 1px #cce6fc;
   }
   th {
@@ -24,6 +24,7 @@
     width: 150px;
     height: 30px;
     margin-top: 10px;
+    margin-bottom: 10px;
     margin-left: 20px;
     background: #3e3bdf;
     border: none;
@@ -31,5 +32,44 @@
     color: #ffffff;
     font-size: 14px;
     font-weight: bold;
+  }
+  .createButton {
+    width: 150px;
+    height: 30px;
+    background: #3e3bdf;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .createCustomerButton {
+    width: 150px;
+    height: 30px;
+    background: #3e3bdf;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .confirmButton {
+    width: 150px;
+    height: 30px;
+    background: #3e3bdf;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .createCustomerNewLine {
+    padding-bottom: 15px;
+  }
+  .createCustomerMessage {
+    padding-top: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #df3b49;
   }
 }
